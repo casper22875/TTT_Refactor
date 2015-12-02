@@ -1,0 +1,55 @@
+class TicTacToe
+	function Interface
+	function Board
+	instance 
+		Player1
+		Player2
+		Computer	
+		
+class Board
+	function Board array[0-8]
+	iterate over array
+	def grid size
+		function Update Board()
+		function Game Win?()
+		function Game End?()
+		function marker last played()
+		function next marker()
+	
+class Player
+	initialize
+		board
+		players
+		gametype
+		markers
+			function determine_move
+			
+subclass Console Human :: Player
+	call determine_move
+	
+subclass Web Human :: Player
+	call determine_move
+	
+subclass AI :: Player
+	easy
+		call determine_move
+	medium
+		call determine_move
+	hard
+		call determine_move
+		
+rb file list
+	console.rb
+	webplay.rb
+
+erb file list
+	NewGameForm.erb
+		-Post /NewGame
+	StatusForm.erb
+		-Post /CurrentStatus
+	HumanMove.erb
+		-Post /getmove
+	ComputerMove.erb
+		-Post /getmove
+	GameOverForm.erb
+		-Post /gameover
