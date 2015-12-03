@@ -8,7 +8,7 @@ class TicTacToe
 		
 class Board
 	function Board array[0-8]
-	iterate over array
+	#iterate over array
 	def grid size
 		function Update Board()
 		function Game Win?()
@@ -24,13 +24,13 @@ class Player
 		markers
 			function determine_move
 			
-subclass Console Human :: Player
+Console Human :: Player
 	call determine_move
 	
-subclass Web Human :: Player
+Web Human :: Player
 	call determine_move
 	
-subclass AI :: Player
+AI :: Player
 	easy
 		call determine_move
 	medium
