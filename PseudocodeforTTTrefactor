@@ -1,6 +1,6 @@
 class TicTacToe
 	function Interface
-	function Board
+	
 	instance 
 		Player1
 		Player2
