@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Mined Minds Tic Tac Toe</title>
+		<link rel="stylesheet" href="css/main-style.css">
+	</head>
+	<body>
+		<header>
+			<a href="index.html">
+				<img class="header-image" src="img/mm.png" alt="header image">
+			</a>
+			<div class="greeting">
+				<span>Welcome to Mined Minds Tic Tac Toe!</span>
+			</div>
+			<nav>
+				<ul>
+					<li><a href="index.html">Home</a></li>
+					<li><a href="rules.html">Tic Tac Toe Rules</a></li>
+					<li class="youarehere"><a href="http://localhost:4567/tictactoe">Play Tic Tac Toe</a></li>
+					<li><a href="http://www.minedminds.org" target="new">Minedminds.org</a></li>
+				</ul>
+			</nav>
+		</header>
+		<section>
+			<h3>Choose a side.</h3>
+			<table>
+				<tr>
+					<td class="br"><%=board[0]%></td><td class="br"><%=board[1]%></td><td class="b"><%=board[2]%></td>
+				</tr>
+				<tr>
+					<td class="br"><%=board[3]%></td><td class="br"><%=board[4]%></td><td class="b"><%=board[5]%></td>
+				</tr>
+				<tr>
+					<td class="r"><%=board[6]%></td><td class="r"><%=board[7]%></td><td><%=board[8]%></td>
+				</tr>
+			</table>
+			<p class="tictactoe">Player 1 Please choose 
+				<span class="blue">X</span> or <span class="blue">O</span>
+			</p>
+			<form name="marker" action="/squares" method="POST">
+				<select id="XorO" name="XorO">
+					<option value="">Choose</option>
+					<option value="X">X</option>
+					<option value="O">O</option>
+				<select>
+				<input type="submit" value="select" onclick="return validateMarker()">
+			</form>
+			<p>
+				<span class="red"><%=error%></span>
+			</p>
+		</section>
+		<footer>
+		&copy; 2015 Mined Minds
+		</footer>
+		<script>
+			function validateMarker() {
+				var x = document.getElementById("XorO").value;
+				if (x == "") {
+					alert("Please choose X or O");
+					return false;
+				}
+			}
+		</script>
+	</body>
+</html>
+Status API Training Shop Blog About Pricing
+© 2015 GitHub, Inc. Terms Privacy Security Contact Help
