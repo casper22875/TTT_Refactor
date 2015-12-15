@@ -8,4 +8,4 @@ class AIeasyMove
 			end
 	end
 	
-	def getnextmove
+	
