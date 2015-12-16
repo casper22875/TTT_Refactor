@@ -8,3 +8,4 @@ class AImediumMove
 		end
 		return @medium_move
 	end
+end

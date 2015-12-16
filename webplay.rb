@@ -1,6 +1,6 @@
 require 'sinatra'
 
-require_relative "ai2.rb"
+require_relative "ai.rb"
 require_relative"gameplayers.rb"
 require_relative"gameboard.rb"
 
