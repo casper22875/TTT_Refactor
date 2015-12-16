@@ -1,29 +1,30 @@
 require 'sinatra'
-
+require_relative "NewGame.rb"
 require_relative "ai.rb"
 require_relative"gameplayers.rb"
 require_relative"gameboard.rb"
 
 
-ai = AI.new()
+
 
 get '/tictactoe' do
-	tyoe= params[:typeofgame]
+	type= params[:typeofgame]
 	erb :OneplayerorTwoplayer, :locals => {:message => "", :board => ai.play_board.board}
 end
 
 post '/tictactoe' do
-gameplayers = Gameplayers.new
-	ai.players.type = params[:gametype]
-	if ai.players.type == "1"
-		erb :howhard, :locals => {:message => "You Chose to play a 1 player game", :board => ai.play_board.board}
+	player1_details = [params[:player1], params[player1_name], [params[player1_difficulty]]
+	player2_details = [params[:player2], params[player2_name], [params[player2_difficulty]]
+	players_details = [player1_details, player2_details]
+	game = Game.new(board.new, player1_details, player2_details)
+	erb :howhard, :locals => {:message => "You Chose to play a 1 player game", :board => game.board}
 	else
-		erb :marker, :locals => {:message => "You Chose to play a 2 player game", :board => ai.play_board.board}
+		erb :marker, :locals => {:message => "You Chose to play a 2 player game", :board => game.board}
 	end
 end
 
 post '/marker' do
-		ai.level = params[:difficulty] if ai.players.type == "1"
+		game.difficulty = params[:difficulty] if game.players.type == "1"
 	
 	erb :marker, :locals => {:message => "Really your gonna play that level?", :board => ai.play_board.board}
 end
