@@ -9,13 +9,14 @@ class AI
 		@name = name
 		@marker = marker
 		@fork_routes = [[0,2,6],[0,2,8],[0,6,8],[2,6,8],[0,2,5],[0,2,3],[5,6,8],[3,6,8],[0,2,4],[2,4,8],[0,4,6],[6,4,8]]
-		
-		
-		
 	end	
+	
+	def make_a_move(board)
+		@current_position
+	end
 end		
 	
-class AIeasyMove
+class AIeasyMove 
 	def computer_random_move
 		n = rand(0..8)
 			if square_available?(n) == false
@@ -27,7 +28,7 @@ class AIeasyMove
 	
 end	
 
-class AImediumMove
+class AImediumMove 
 	def medium_ai
 		if computer_winning_move()
 		elsif computer_blocking_move()
@@ -39,7 +40,7 @@ class AImediumMove
 	end
 end
 
-class UBAI
+class UBAI 
 	def negamax(board, mark, depth)
 		mark == "X" ? opponent = "O" : opponent = "X"
 		if winner?(mark) || board_full?()
