@@ -1,14 +1,15 @@
-class Game
+class Game	
 
 	attr_accessor :board, :player1, :player2, :current_player
 	
-	def initialize(board,player1_details,player2_details)
+	def initialize(player1_details,player2_details)
 		
-		@board = Gameboard.board.new
+		
 		@player1 = player_set(player1_details, "X")
 		@player2 = player_set(player2_details, "O")
 	end
-	
+
+
 	def make_current_player
 		if	board.next_marker == "X"
 			return player1 

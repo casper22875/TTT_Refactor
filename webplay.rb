@@ -8,8 +8,9 @@ require_relative"gameboard.rb"
 
 
 get '/tictactoe' do
-	board = Game.board.new
-	erb :OneplayerorTwoplayer, :locals => {:message => "",:board => board}
+	@board = Gameboard.new
+	erb :OneplayerorTwoplayer, :locals => {:message => "",
+										   :board => @board}
 end
 
 
@@ -22,11 +23,13 @@ post '/tictactoe' do
 	players_details= [player1_details, player2_details]
 	type= params[:typeofgame]
 	
-	game = Game.new(board,player1_details,player2_details)
+	game = Game.new(player1_details,player2_details)
 	if type == "1"
-	erb :OneplayerorTwoplayer, :locals => {:message => "You Chose to play a 1 player game", :board => game.board}
+	erb :OneplayerorTwoplayer, :locals => {:message => "You Chose to play a 1 player game", 
+										   :board => @board}
 	else
-	erb :marker, :locals => {:message => "You Chose to play a 2 player game", :board => game.board}
+	erb :marker, :locals => {:message => "You Chose to play a 2 player game", 
+							 :board => @board}
 	end
 end
 
