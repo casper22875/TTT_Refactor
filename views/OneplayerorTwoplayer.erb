@@ -16,39 +16,16 @@
 <br><%=message%></b></p>
 <br>
  
-			<table> 
- <tr>
-  <td class="br"> <input type="submit" name="choice" value = "1"></td><td class="br"> <input type="submit" name="choice"  value="2"></td><td class="b"> <input type="submit" name="choice"  value="3"></td>
- </tr><tr>
-  <td class="br"> <input type="submit" name="choice"  value="4"></td><td class="br"> <input type="submit" name="choice"  value="5"></td><td class="b"> <input type="submit" name="choice"  value="6"></td>
- </tr><tr>
-  <td class="r"> <input type="submit" name="choice"  value="7"></td><td class="r"> <input type="submit" name="choice"  value="8"></td><td> <input type="submit" name="choice"  value="9"></td>
- </tr>
-</table>
-
  <form action="/tictactoe" method="POST">
 				<br><%=message%></b></p>
 				<input type="radio" name="gametype" value="1">  1 Player Game
+				<br>
+				<input class="2p" type="radio" name="gametype" value="2">  2 Player Game<br>
 				<input type="radio" name="player1" value="Human" checked>Human
+				<br>
 				<input type="radio" name="player1" value="Computer">Computer
-				<br>
-				If Computer, select AI level:
-				<select name="difficulty">
-				<option value="1">Easy</option>
-				<option value="2">Medium</option>
-				<option value="3">Hard</option>
-				</select>
-				<br>
-				<input class="2p" type="radio" name="gametype" value="2">  2 Player Game
-				<input type="radio" name="player2" value="Human" checked>Human
-				<input type="radio" name="player2" value="Computer">Computer
-				<br>
-				If Computer, select AI level:
-				<select name="difficulty">
-				<option value="1">Easy</option>
-				<option value="2">Medium</option>
-				<option value="3">Hard</option>
-				</select>
+				
+				
 				<br><br>
 				<input type="submit" name="submit" value="Submit">
 				</form>
