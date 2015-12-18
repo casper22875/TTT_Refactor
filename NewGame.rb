@@ -3,10 +3,9 @@ class Game
 	attr_accessor :board, :player1, :player2, :current_player
 	
 	def initialize(player1_details,player2_details)
-		
-		
 		@player1 = player_set(player1_details, "X")
 		@player2 = player_set(player2_details, "O")
+
 	end
 
 

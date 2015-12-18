@@ -8,7 +8,7 @@ require_relative"gameboard.rb"
 
 
 get '/tictactoe' do
-	@board = Gameboard.new
+	board = Gameboard.new
 	erb :OneplayerorTwoplayer, :locals => {:message => "",
 										   :board => @board}
 end
@@ -23,7 +23,7 @@ post '/tictactoe' do
 	players_details= [player1_details, player2_details]
 	type= params[:typeofgame]
 	
-	game = Game.new(player1_details,player2_details)
+game = Game.new(player1_details,player2_details)
 	if type == "1"
 	erb :OneplayerorTwoplayer, :locals => {:message => "You Chose to play a 1 player game", 
 										   :board => @board}
@@ -40,32 +40,33 @@ post '/marker' do
 		erb :marker, :locals => {:message => "You chose Easy.Really your gonna play that level?", 
 								 :board => game.play_board.board}
 		elsif game.players.type == "2"
-		erb :marker, :locals => {:message => "You chose Easy.Really your gonna play that level?", 
+		erb :marker, :locals => {:message => "You chose Medium.Really your gonna play that level?", 
 								 :board => game.play_board.board}
 		elsif game.players.type == "3"						 
-		erb :marker, :locals => {:message => "You chose Easy.Really your gonna play that level?", 
+		erb :marker, :locals => {:message => "You chose Hard.Really your gonna play that level?", 
 								 :board => game.play_board.board}						 
 		end						 
 end
 
 post '/squares' do
-	game.players.player1 = params[:XorO]
-	game.players.player2 = ai.players.p2()
-	erb :squares, :locals => {:player1 => game.players.player1, 
-							  :player2 => game.players.player2, 
-							  :message => "Player 1 is #{game.players.player1} so Player 2 is #{game.players.player2} ", 
+	player1_details = params[:XorO]
+	player2_details = params[:XorO]
+	make_current_player = "X" || "O"
+	erb :squares, :locals => {:player1 => player1_details, 
+							  :player2 => player2_details, 
+							  :message => "Player 1 is #{player1_details} so Player 2 is #{player2_details} ", 
 							  :message2 => "", 
-							  :current => game.players.current, 
-							  :board => game.play_board.board, 
-							  :type => game.players.type, :invaild => ""}
+							  :current => make_current_player, 
+							  :board => @board, 
+							  :invaild => ""}
 end
 
 post '/game' do
 	choice = params[:choice].to_i
-	player_marker = game.players.current_player()
 	
-	if game.play_board.square_available?(choice - 1) == true
-		game.play_board.board[choice - 1] = player_marker
+	
+	if Game.valid_square?(choice) == true
+	   Game.next_marker = make_current_player
 		redirect to('/status')
 	else
 		erb :squares, :locals => {:player1 => game.players.player1, 
@@ -82,16 +83,16 @@ end
 
 get '/cpu' do
 	sleep 1
-	player_marker = game.players.current_player()
+	player_marker = players.current_player()
 	move = game.computer_move(game.level)
 	game.play_board.board[move] = player_marker
 	redirect to('/status')
 end
 
 get '/status' do
-	if game.play_board.winner?(game.players.current_player) == true
+	if play_board.winner?(game.players.current_player) == true
 		redirect to('/win')
-	elsif game.play_board.board_full?() == true
+	elsif play_board.board_full?() == true
 		redirect to('/tie')
 	end
 	
