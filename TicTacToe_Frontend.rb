@@ -3,7 +3,8 @@ require 'sinatra'
 require_relative "ai.rb"
 require_relative "gameboard.rb"
 require_relative "gameplayers.rb"
-
+require_relative "moderately_easy.rb"
+require_relative "simple.rb"
 play_board = Gameboard.new()
 players = Gameplayers.new()
 # ai_initi = false
@@ -28,6 +29,12 @@ post '/marker' do
 		if players.level == "easy"
 		ai = Easy.new(play_board)
 			erb :marker, :locals => {:message => "Really your gonna play EASY??", :board => play_board.board}
+		elsif players.level =="mild"
+		ai = ModEasy.new(play_board, players)
+			erb :marker, :locals => {:message => "Really your gonna play Mild??", :board => play_board.board}
+		elsif players.level =="simple"
+		ai = Simple.new(play_board, players)
+			erb :marker, :locals => {:message => "Really your gonna play Simple??", :board => play_board.board}
 		elsif players.level == "medium"
 		ai = Medium.new(play_board, players)
 			erb :marker, :locals => {:message => "MEDIUM is cool but how about HARD??", :board => play_board.board}
