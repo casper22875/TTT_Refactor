@@ -4,34 +4,28 @@ require_relative "ai.rb"
 require_relative"gameplayers.rb"
 require_relative"gameboard.rb"
 
-
-gameplayers = Gameplayers.new
-board_grid = Gameboard.new
-ai = AI.new
+ai = AI.new()
 
 get '/tictactoe' do
-	
-	erb :OneplayerorTwoplayer, :locals => {:message => "", 
-										   :board => board_grid.board}
+	tyoe= params[:typeofgame]
+	erb :OneplayerorTwoplayer, :locals => {:message => "", :board => ai.play_board.board}
 end
 
 post '/tictactoe' do
-
-	type = params[:gametype]
-	if type == "1"
-		erb :howhard, :locals => {:message => "You Chose to play a 1 player game", :board => board_grid.board}
+gameplayers = Gameplayers.new
+	ai.players.type = params[:gametype]
+	if ai.players.type == "1"
+		erb :howhard, :locals => {:message => "You Chose to play a 1 player game", :board => ai.play_board.board}
 	else
-		erb :marker, :locals => {:message => "You Chose to play a 2 player game", :board => board_grid.board}
+		erb :marker, :locals => {:message => "You Chose to play a 2 player game", :board => ai.play_board.board}
 	end
 end
 
 post '/marker' do
-		
-	ai.level = params[:difficulty] 
-	if ai.players.type == "1"
+		ai.level = params[:difficulty] if ai.players.type == "1"
 	
-	erb :marker, :locals => {:message => "Really your gonna play that level?", :board => board_grid.board}
-	end
+	erb :marker, :locals => {:message => "Really your gonna play that level?", :board => ai.play_board.board}
+end
 
 post '/squares' do
 	ai.players.player1 = params[:XorO]
@@ -65,7 +59,7 @@ end
 get '/status' do
 	if ai.play_board.winner?(ai.players.current_player) == true
 		redirect to('/win')
-	elsif ai.play_board.board_full? == true
+	elsif ai.play_board.board_full?() == true
 		redirect to('/tie')
 	end
 	
@@ -85,7 +79,7 @@ get '/tie' do
 end
 
 post '/new' do
-	ai = AI.new
+	ai = AI.new()
 	# game_board = Board.new()
 	# players = Players.new()
 	redirect to('/tictactoe')
