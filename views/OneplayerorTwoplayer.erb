@@ -2,34 +2,55 @@
 
 <head>
 <link rel="stylesheet" href="/style.css">
+<style>
 
+body {
+    background-image: url("TicTacToePowerPoint1.jpg");
+       background-position: right top;
+    background-attachment: fixed;
+} 
+</style>
 </head>
+<!DOCTYPE html>
+<html>
+<p><img src="TTTbanner.jpg" alt="" usemap="#Map" />
+<map name="Map" id="Map">
+    <area alt="" title="" href="/MinedMinds link " shape="poly" coords="80,6,386,5,390,44,83,45" />
+    <area alt="" title="" href="Home" shape="poly" coords="67,53,129,53,129,81,71,81" />
+    <area alt="" title="" href="TTT Game" shape="poly" coords="135,53,252,56,254,74,136,77" />
+    <area alt="" title="" href="/rules" shape="poly" coords="261,51,336,52,332,76,270,78" />
+    <area alt="" title="" href="Info Link" shape="poly" coords="343,52,393,53,398,76,354,74" />
+</map></p>
+    
 
+</body>
+</html>
 <body bgcolor="green">
-
+<body background="TicTacToePowerPoint1.jpg" bgcolor="#333333"> 
 <div>
 <br>
 <img src="/mm.png">
 
-<p style="color:red"><b>
-<br><%=message%></b></p>
-	
-<table> 
+<p style="color:red">
+<lo><b><%=message%></lo></b></p>
+	<table>
  <tr>
-  <td class="br"> <input type="submit" name="choice" value = "1"> </td><td class="br"> <input type="submit" name="choice"  value="2"></td><td class="b"> <input type="submit" name="choice"  value="3"></td>
+  <td class="br"><%=board[0]%></td><td class="br"><%=board[1]%></td><td class="b"><%=board[2]%></td>
  </tr><tr>
-  <td class="br"> <input type="submit" name="choice"  value="4"></td><td class="br"> <input type="submit" name="choice"  value="5"></td><td class="b"> <input type="submit" name="choice"  value="6"></td>
+  <td class="br"><%=board[3]%></td><td class="br"><%=board[4]%></td><td class="b"><%=board[5]%></td>
  </tr><tr>
-  <td class="r"> <input type="submit" name="choice"  value="7"></td><td class="r"> <input type="submit" name="choice"  value="8"></td><td> <input type="submit" name="choice"  value="9"></td>
+  <td class="r"><%=board[6]%></td><td class="r"><%=board[7]%></td><td><%=board[8]%></td>
  </tr>
 </table>
+
 <br>
  
- <form action="/tictactoe" method="POST">
-				<input type="radio" name="gametype" value="1">  1 Player Game
+ <form action="/tictactoe" method="POST"><p style="color:white"><b><p style="color:blue">
+				<input type="radio" name="gametype" value="1" checked >  1 Player Game
 				<br>
 				<input class="2p" type="radio" name="gametype" value="2">  2 Player Game
 				<br><br>
-				<input type="submit" name="submit" value="Submit">
+				<input type="submit" name="submit" value="Submit"></p>
 				</form>
 				<b><p><a href="Console.exe" download="Console.exe">***** Download & Play In Dos ***** </a></p></b>
+

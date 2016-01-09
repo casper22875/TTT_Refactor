@@ -1,0 +1,11 @@
+<img src="url/to/your/image.jpg" alt="" usemap="#Map" />
+<map name="Map" id="Map">
+    <area alt="" title="" href="#" shape="poly" coords="80,6,386,5,390,44,83,45" />
+    <area alt="" title="" href="#" shape="poly" coords="67,53,129,53,129,81,71,81" />
+    <area alt="" title="" href="#" shape="poly" coords="135,53,252,56,254,74,136,77" />
+    <area alt="" title="" href="#" shape="poly" coords="261,51,336,52,332,76,270,78" />
+    <area alt="" title="" href="#" shape="poly" coords="343,52,393,53,398,76,354,74" />
+    [...]
+</map>
+
+background: url("ruby.gif") no-repeat

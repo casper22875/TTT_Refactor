@@ -9,6 +9,8 @@ class Gameplayers
 			@level = ""
 		end
 		
+
+		
 		def p2
 			if	player1 == "X"
 			 "O" 

@@ -1,122 +1,151 @@
 require 'sinatra'
-
-require_relative "ai.rb"
-require_relative "gameboard.rb"
-require_relative "gameplayers.rb"
+require_relative "random.rb"
+require_relative "negamax.rb"
+require_relative "medium.rb"
 require_relative "moderately_easy.rb"
 require_relative "simple.rb"
+require_relative "gameboard.rb"
+require_relative "gameplayers.rb"
+
+enable :sessions
+
+ai = ""
+
 play_board = Gameboard.new()
 players = Gameplayers.new()
-# ai_initi = false
-ai = ""
+
+# get '/' do 
+	# erb :home, :locals => {}	
+# end
+
+# get '/rules' do
+	# erb :rules, :locals => {}
+# end
+
+
+
 
 
 get '/tictactoe' do
-	erb :OneplayerorTwoplayer, :locals => {:message => "Lets Play Some Tic-Tac-Toe", :board => play_board.board}
+	session[:playboard] = play_board
+	erb :OneplayerorTwoplayer, :locals => {:message => "Lets Play Some Tic-Tac-Toe", :board => session[:playboard].board}
 end
 
 post '/tictactoe' do
-	players.type = params[:gametype]
-	if players.type == "1"
-		erb :howhard, :locals => {:message => "You Chose a 1 Player VS the Computer Game", :board => play_board.board}
+	session[:players] = players
+	session[:players].type = params[:gametype]
+	session[:gametype] = params[:gametype]
+	
+	if session[:gametype] == "1"
+		erb :howhard, :locals => {:message => "You Chose a 1 Player VS the Computer Game", :board => session[:playboard].board}
 	else
-		erb :marker, :locals => {:message => "You Chose a 2 player game", :board => play_board.board}
+		erb :marker, :locals => {:message => "You Chose a 2 player game", :board => session[:playboard].board}
 	end
 end
 
 post '/marker' do
-		players.level = params[:level] 
-		if players.level == "easy"
-		ai = Easy.new(play_board)
-			erb :marker, :locals => {:message => "Really your gonna play EASY??", :board => play_board.board}
-		elsif players.level =="mild"
-		ai = ModEasy.new(play_board, players)
-			erb :marker, :locals => {:message => "Really your gonna play Mild??", :board => play_board.board}
-		elsif players.level =="simple"
-		ai = Simple.new(play_board, players)
-			erb :marker, :locals => {:message => "Really your gonna play Simple??", :board => play_board.board}
-		elsif players.level == "medium"
-		ai = Medium.new(play_board, players)
-			erb :marker, :locals => {:message => "MEDIUM is cool but how about HARD??", :board => play_board.board}
+		session[:ai] = ai
+		session[:players].level = params[:level] 
+		session[:level] = params[:level]
+		if session[:level] == "easy"
+		session[:ai] = Easy.new(session[:playboard])
+			erb :marker, :locals => {:message => "Really your gonna play EASY??", :board => session[:playboard].board}
+		elsif session[:level] =="mild"
+		session[:ai] = ModEasy.new(session[:playboard], session[:players])
+			erb :marker, :locals => {:message => "Really Mild?? Mild is a Sauce not a level.", :board => session[:playboard].board}
+		elsif session[:level] =="simple"
+		session[:ai] = Simple.new(session[:playboard], session[:players])
+			erb :marker, :locals => {:message => "Simple?? Comon man Try a harder level", :board => session[:playboard].board}
+		elsif session[:level] == "medium"
+		session[:ai] = Medium.new(session[:playboard], session[:players])
+			erb :marker, :locals => {:message => "MEDIUM is cool but how about HARD??", :board => session[:playboard].board}
 		else 	
-		ai = Negamax.new(play_board,players)
-			erb :marker, :locals => {:message => "Hard?? You know it cant be beat right?", :board => play_board.board}
+		session[:ai] = Negamax.new(session[:playboard],session[:players])
+			erb :marker, :locals => {:message => "Hard?? You know it cant be beat right?", :board => session[:playboard].board}
 
 		end
 end
 
 post '/squares' do
-	players.player1 = params[:XorO]
-	players.player2 = players.p2()
-	erb :squares, :locals => {:p1 => players.player1, :p2 => players.player2, 
-							  :invaild => "", :message2 => "Player 1 is #{players.player1} & Player 2 is #{players.player2} ", 
-							  :current => players.current, :board => play_board.board, :type => players.type}
+	
+	session[:XorO] = params[:XorO]
+	session[:players].player1 = params[:XorO]
+	session[:players].player2 = session[:players].p2()
+	
+	erb :squares, :locals => {:p1 => session[:players].player1, :p2 => session[:players].player2, 
+							  :invaild => "", :message2 => "Player 1 is #{session[:players].player1} & Player 2 is #{session[:players].player2} ", 
+							  :current => session[:players].current, :board => session[:playboard].board, :type => session[:players].type}
 end
 
 post '/game' do
+
+	session[:choice] = params[:choice].to_i
 	choice = params[:choice].to_i
-	player_marker = players.current_player()
+	player_marker = session[:players].current_player()
 	
-	if play_board.square_available?(choice - 1) == true
-		play_board.board[choice - 1] = player_marker
+	if session[:playboard].square_available?(choice - 1) == true
+		session[:playboard].board[choice - 1] = player_marker
 		redirect to('/status')
 	else
-		erb :squares, :locals => {:p1 => players.player1, 
-								  :p2 => players.player2, 
-								  :invaild => "Hey #{players.current} #{choice} is already taken", 
+		erb :squares, :locals => {:p1 => session[:players].player1, 
+								  :p2 => session[:players].player2, 
+								  :invaild => "Hey Player #{session[:players].current} #{choice} is already taken", 
 								  :message2 => "Please choose again.", 
-								  :current => players.current, 
-								  :board => play_board.board, 
-								  :type => players.type}
+								  :current => session[:players].current, 
+								  :board => session[:playboard].board, 
+								  :type => session[:players].type}
 	end	
 end
 
+
 get '/computerai' do
-		player_marker = players.current_player()
-	# if players.level == "easy"
-		# ai = Easy.new(play_board) if ai_initi == false
-		# ai_initi = true
-		# move = ai.computer_move()
-	# elsif players.level == "medium"
-		# ai = Medium.new(play_board, players) if ai_initi == false
-		# ai_initi = true
-		move = ai.computer_move()
-	# elsif players.level == "hard"	
-		# ai = Negamax.new(play_board) if ai_initi == false
-		# ai_initi = true
-		# move = ai.computer_move(player_marker)
-	# end
-	play_board.board[move] = player_marker
+		player_marker = session[:players].current_player()
+
+		move = session[:ai].computer_move()
+
+	session[:playboard].board[move] = player_marker
 	redirect to('/status')
 end
 
 get '/status' do
-	if play_board.winner?(players.current_player) == true
+	if session[:playboard].winner?(session[:players].current_player) == true
 		redirect to('/win')
-	elsif play_board.board_full?() == true
+	elsif session[:playboard].board_full?() == true
 		redirect to('/tie')
 	end
 	
-	players.current = players.change()
-	redirect to('/computerai') if players.type == "1" && players.current == 2
-	erb :squares, :locals => {:p1 => players.player1, 
-							  :p2 => players.player2, 
-							  :invaild => "", 
-							  :message2 => "", 
-							  :current => players.current, 
-							  :board => play_board.board, 
-							  :type => players.type}	
+	session[:players].current = session[:players].change()
+	if session[:players].type == "1" && session[:players].current == 2
+	 redirect to('/computerai') 
+	 else
+		redirect to('/aimove')
+	end
 end
 
+get '/aimove' do
+
+	session[:players].type == "1" && session[:players].current == 1
+		erb :squares, :locals => {:p1 => session[:players].player1, 
+							  :p2 => session[:players].player2, 
+							  :invaild => "", 
+							  :message2 => "", 
+							  :current => session[:players].current, 
+							  :board => session[:playboard].board, 
+							  :type => session[:players].type}	
+end
+
+
+
 get '/win' do
-	erb :gameover, :locals => {:message => "Player #{players.current} wins!!! & Player #{players.change()} Sucks", 
-							   :board => play_board.board}
+	erb :gameover, :locals => {:message => "Player #{session[:players].current} wins!!! & Player #{session[:players].change()} Sucks", 
+							   :board => session[:playboard].board}
 end
 
 get '/tie' do
-	erb :gameover, :locals => {:message => "Player #{players.current} & Player #{players.change()} TIE ..... Boooo You both suck", 
-							   :board => play_board.board}
+	erb :gameover, :locals => {:message => "Player #{session[:players].current} & Player #{session[:players].change()} TIE ..... Boooo You both suck", 
+							   :board => session[:playboard].board}
 end
+
 
 post '/new' do
 	play_board = Gameboard.new()
